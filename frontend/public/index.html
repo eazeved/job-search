@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hidden Job Finder — Boolean ATS Search</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>🔎 Hidden Job Finder</h1>
+      <p class="subtitle">
+        Build boolean searches across ATS job boards (Ashby, Greenhouse, Lever, Workday, and more) —
+        the postings that rarely show up on LinkedIn.
+      </p>
+    </header>
+
+    <section class="card">
+      <h2><span class="step">1</span> Keywords</h2>
+      <p class="hint">Add a keyword, then click “+ Add condition” to chain more with AND / OR / NOT.</p>
+      <div id="terms"></div>
+      <button id="addTerm" type="button" class="btn-outline">+ Add condition</button>
+    </section>
+
+    <section class="card">
+      <h2><span class="step">2</span> Job boards</h2>
+      <p class="hint">Selected boards will be searched. Add your own ATS domain if it's not listed.</p>
+      <div id="sites" class="sites-grid"></div>
+
+      <div class="custom-domain">
+        <label for="customDomain">Custom domain</label>
+        <div class="custom-domain-row">
+          <input type="text" id="customDomain" placeholder="e.g. jobs.example.com" />
+          <button id="addCustomDomain" type="button" class="btn-outline">Add</button>
+        </div>
+        <ul id="customDomainList" class="custom-domain-list"></ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="step">3</span> Search engine</h2>
+      <div class="engine-row" id="engines">
+        <label class="engine-option"><input type="radio" name="engine" value="google" checked /> Google</label>
+        <label class="engine-option"><input type="radio" name="engine" value="bing" /> Bing</label>
+        <label class="engine-option"><input type="radio" name="engine" value="duckduckgo" /> DuckDuckGo</label>
+      </div>
+    </section>
+
+    <button id="searchBtn" type="button" class="btn-primary">Generate search →</button>
+
+    <section class="card" id="resultsSection" hidden>
+      <h2>Results</h2>
+
+      <div class="combined-query">
+        <label>Combined boolean query (all selected boards at once)</label>
+        <div class="query-row">
+          <code id="combinedQueryText"></code>
+          <button class="btn-small copy-btn" data-target="combinedQueryText" type="button">Copy</button>
+        </div>
+        <a id="combinedLink" target="_blank" rel="noopener" class="btn-outline">Open combined search ↗</a>
+      </div>
+
+      <h3 class="per-site-heading">Per-board searches</h3>
+      <div id="resultsGrid" class="results-grid"></div>
+    </section>
+
+    <footer>
+      <p>Queries are generated locally and opened directly on your chosen search engine — nothing is scraped or stored.</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

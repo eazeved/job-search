@@ -1,0 +1,35 @@
+services:
+  backend:
+    build: ./backend
+    container_name: jobsearch-backend
+    expose:
+      - "5000"
+    restart: unless-stopped
+
+  certbot:
+    image: certbot/dns-cloudflare:latest
+    container_name: jobsearch-certbot
+    volumes:
+      - certbot-conf:/etc/letsencrypt
+      - ./certbot/cloudflare.ini:/etc/cloudflare-creds/cloudflare.ini:ro
+      - ./certbot/entrypoint.sh:/entrypoint.sh:ro
+    # DNS-01 doesn't need a webserver running, so this issues the wildcard
+    # cert on first start, then loops forever renewing it every 12h.
+    entrypoint: ["sh", "/entrypoint.sh"]
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: jobsearch-frontend
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+    volumes:
+      - certbot-conf:/etc/letsencrypt:ro
+    depends_on:
+      - backend
+      - certbot
+    restart: unless-stopped
+
+volumes:
+  certbot-conf:

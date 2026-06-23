@@ -1,0 +1,11 @@
+# Cloudflare API token for the certbot dns-cloudflare plugin.
+#
+# 1. Go to https://dash.cloudflare.com/profile/api-tokens
+# 2. Create a token with permission: Zone -> DNS -> Edit, scoped to the
+#    eazevedo.online zone only.
+# 3. Copy this file to "cloudflare.ini" (same folder) and paste the token below.
+# 4. chmod 600 cloudflare.ini  (certbot will refuse to run otherwise)
+#
+# NEVER commit the real cloudflare.ini file to git.
+
+dns_cloudflare_api_token = your_cloudflare_api_token_here
