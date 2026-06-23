@@ -77,15 +77,14 @@ Spin up the service stack in detached mode:
 docker compose up --build -d
 ```
 
-Certbot will attempt to acquire the wildcard certificate on first boot. Monitor the logs using:
+Certbot will attempt to acquire the wildcard certificate on first boot. The frontend is configured to delay Nginx startup by 60 seconds to allow the certificate to be generated before it boots.
+
+You can monitor the Certbot certificate creation logs with:
 ```bash
 docker compose logs -f certbot
 ```
 
-Once the certificate is successfully created and saved to the shared volume, restart Nginx to load the TLS certificates:
-```bash
-docker compose restart frontend
-```
+*(Note: If the DNS propagation or cert challenge takes longer than 60 seconds, you might need to restart Nginx once to pick up the certificates using `docker compose restart frontend`).*
 
 > [!TIP]
 > **Nginx Certificate Reload**: Certbot will run a background loop checking for certificate renewal every 12 hours. Since Nginx doesn't automatically reload updated certificates, you can set up a simple host cron job to run:
