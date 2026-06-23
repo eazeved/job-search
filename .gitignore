@@ -1,2 +1,3 @@
 certbot/cloudflare.ini
 certbot/entrypoint.sh
+frontend/nginx.conf
